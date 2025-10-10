@@ -28,12 +28,10 @@ public class AccountingLedger {
             switch (menuSelection) {
 //                case "D" -> addDeposit();
 //                case "P" -> makePayment();
-                case "L" -> {
-                    displayLedger();
-                    continue;
+                case "L" -> displayLedger();
+                case "X" -> {
+                    System.out.println("Thanks for using my application!");
                 }
-                case "X" -> System.out.println("Thanks for using my application!");
-
                 default -> System.err.println("Invalid input! Please input a valid character.");
             }
         } while (!Objects.equals(menuSelection, "X"));
@@ -41,27 +39,29 @@ public class AccountingLedger {
 
     public static void displayLedger() {
 
-        String menuSelection;
+        do {
+            System.out.print("""
+                    
+                    ------------- Ledger -------------
+                    \tA) All
+                    \tD) Deposits
+                    \tP) Payments
+                    \tR) Reports
+                    \tH) Return Home
+                    
+                    Please input the character that corresponds to your selection:\s
+                    """);
+            menuSelection = myScanner.nextLine();
 
-        System.out.print("""
-                
-                ------------- Ledger -------------
-                \tA) All
-                \tD) Deposits
-                \tP) Payments
-                \tR) Reports
-                \tH) Return Home
-                
-                Please input the character that corresponds to your selection:\s
-                """);
-        menuSelection = myScanner.nextLine();
-
-        switch (menuSelection) {
+            switch (menuSelection) {
 //            case "A" -> displayAll();
 //            case "D" -> displayDeposits();
 //            case "P" -> displayPayments();
 //            case "R" -> reportsMenu();
-            case "H" -> displayHomeMenu();
-        }
+                case "H" -> {}
+
+                default -> System.err.println("Invalid input! Please input a valid character.");
+            }
+        } while(!Objects.equals(menuSelection, "H"));
     }
 }
