@@ -2,19 +2,21 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class AccountingLedger {
+    static Scanner myScanner = new Scanner(System.in);
+    static String menuSelection = "";
 
     public static void main(String[] args) {
+        displayHomeMenu();
+    }
 
-        Scanner myScanner = new Scanner(System.in);
-        String menuSelection;
+    public static void displayHomeMenu() {
 
+        // Beginning of do-while loop, should always loop back to Home Screen unless user inputs X to exit
         do {
-
             System.out.print("""
                     
                     ------------- Home Screen -------------
-                    \t\
-                    D) Add Deposit
+                    \tD) Add Deposit
                     \tP) Make Payment (Debit)
                     \tL) Ledger
                     \tX) Exit\
@@ -24,13 +26,42 @@ public class AccountingLedger {
             menuSelection = myScanner.nextLine();
 
             switch (menuSelection) {
-                case "D" -> System.out.println("Adding deposit!");
-//                case "P" -> makePayment;
-//                case "L" -> displayLedger;
+//                case "D" -> addDeposit();
+//                case "P" -> makePayment();
+                case "L" -> {
+                    displayLedger();
+                    continue;
+                }
                 case "X" -> System.out.println("Thanks for using my application!");
 
                 default -> System.err.println("Invalid input! Please input a valid character.");
             }
         } while (!Objects.equals(menuSelection, "X"));
+    }
+
+    public static void displayLedger() {
+
+        String menuSelection;
+
+        System.out.print("""
+                
+                ------------- Ledger -------------
+                \tA) All
+                \tD) Deposits
+                \tP) Payments
+                \tR) Reports
+                \tH) Return Home
+                
+                Please input the character that corresponds to your selection:\s
+                """);
+        menuSelection = myScanner.nextLine();
+
+        switch (menuSelection) {
+//            case "A" -> displayAll();
+//            case "D" -> displayDeposits();
+//            case "P" -> displayPayments();
+//            case "R" -> reportsMenu();
+            case "H" -> displayHomeMenu();
+        }
     }
 }
