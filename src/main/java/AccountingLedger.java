@@ -1,7 +1,4 @@
 import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Scanner;
@@ -74,6 +71,7 @@ public class AccountingLedger {
     }
 
     public static void addDeposit() {
+        // Try with resources, so the FileWriter is closed after use. Append set to true.
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) { // Try with resources; closes FileWriter when done.
             System.out.print("Please input your name or organization: ");
             String userName = myScanner.nextLine();
@@ -94,7 +92,7 @@ public class AccountingLedger {
     }
 
     public static void makePayment() {
-        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) { // Try with resources; closes FileWriter when done.
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) {
             System.out.print("Please input your name or organization: ");
             String userName = myScanner.nextLine();
             System.out.print("Next, please input the cost of your payment: ");
@@ -105,6 +103,9 @@ public class AccountingLedger {
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
+
+            System.out.println("Thank you! Your payment has been recorded.");
+
         } catch (java.io.IOException e) {
             System.err.println("An error occurred: " + e);
         }
