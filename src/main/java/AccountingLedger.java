@@ -24,8 +24,8 @@ public class AccountingLedger {
                     \tD) Add Deposit
                     \tP) Make Payment (Debit)
                     \tL) Ledger
-                    \tX) Exit\
-                   \s
+                    \tX) Exit
+                   
                     Please input the character that corresponds to your selection:\s""");
             menuSelection = myScanner.nextLine();
 
