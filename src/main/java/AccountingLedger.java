@@ -1,6 +1,5 @@
-import java.io.FileWriter;
+import java.io.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
@@ -9,7 +8,7 @@ public class AccountingLedger {
     static String menuSelection = "";
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
     static String formattedDate = "";
-
+    static String line;
 
     public static void main(String[] args) {
         displayHomeMenu();
@@ -20,15 +19,14 @@ public class AccountingLedger {
         // Beginning of do-while loop, should always loop back to Home Screen unless user inputs X to exit
         do {
             System.out.print("""
-                    
+                   \s
                     ------------- Home Screen -------------
                     \tD) Add Deposit
                     \tP) Make Payment (Debit)
                     \tL) Ledger
                     \tX) Exit\
-                    
-                    Please input the character that corresponds to your selection:
-                    """);
+                   \s
+                    Please input the character that corresponds to your selection:\s""");
             menuSelection = myScanner.nextLine();
 
             switch (menuSelection) { // Redirects user to requested menu or tool
@@ -54,15 +52,14 @@ public class AccountingLedger {
                     \tR) Reports
                     \tH) Return Home
                     
-                    Please input the character that corresponds to your selection:
-                    """);
+                    Please input the character that corresponds to your selection:\s""");
             menuSelection = myScanner.nextLine();
 
             switch (menuSelection) {
-//            case "A", "a" -> displayAll();
-//            case "D", "d" -> displayDeposits();
-//            case "P", "p" -> displayPayments();
-//            case "R", "r" -> reportsMenu();
+                case "A", "a" -> displayAll();
+//                case "D", "d" -> displayDeposits();
+//                case "P", "p" -> displayPayments();
+//                case "R", "r" -> reportsMenu();
                 case "H", "h" -> {
                 }
                 default -> System.err.println("Invalid input! Please input a valid character.");
@@ -72,7 +69,7 @@ public class AccountingLedger {
 
     public static void addDeposit() {
         // Try with resources, so the FileWriter is closed after use. Append set to true.
-        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) { // Try with resources; closes FileWriter when done.
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) {
             System.out.print("Please input your name or organization: ");
             String userName = myScanner.nextLine();
             System.out.print("Next, please input the amount you wish to deposit: ");
@@ -108,6 +105,25 @@ public class AccountingLedger {
 
         } catch (java.io.IOException e) {
             System.err.println("An error occurred: " + e);
+        }
+    }
+
+    public static void displayAll() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
+            do {
+                line = bufferedReader.readLine();
+                if (line != null) {
+                    System.out.println(line);
+                }
+            } while (line != null);
+
+            System.out.println("\nInput any key to continue");
+            myScanner.nextLine();
+
+        } catch (FileNotFoundException e) {
+            System.err.println("Error! File not found: " + e);
+        } catch (IOException e) {
+            System.err.println("Error! An IO Error occurred: " + e);
         }
     }
 }
