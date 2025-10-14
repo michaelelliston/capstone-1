@@ -74,7 +74,7 @@ public class AccountingLedger {
     }
 
     public static void addDeposit() {
-        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv")) { // Try with resources; closes FileWriter when done.
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) { // Try with resources; closes FileWriter when done.
             System.out.print("Please input your name or organization: ");
             String userName = myScanner.nextLine();
             System.out.print("Next, please input the amount you wish to deposit: ");
@@ -84,7 +84,7 @@ public class AccountingLedger {
 
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
-            fileWriter.write(formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
+            fileWriter.write("\n" + formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
 
             System.out.println("Thank you! Your deposit has been recorded.");
 
@@ -94,7 +94,7 @@ public class AccountingLedger {
     }
 
     public static void makePayment() {
-        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv")) { // Try with resources; closes FileWriter when done.
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) { // Try with resources; closes FileWriter when done.
             System.out.print("Please input your name or organization: ");
             String userName = myScanner.nextLine();
             System.out.print("Next, please input the cost of your payment: ");
@@ -104,7 +104,7 @@ public class AccountingLedger {
 
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
-            fileWriter.write(formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
+            fileWriter.write("\n" + formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
         } catch (java.io.IOException e) {
             System.err.println("An error occurred: " + e);
         }
