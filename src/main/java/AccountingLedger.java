@@ -1,9 +1,16 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class AccountingLedger {
     static Scanner myScanner = new Scanner(System.in);
     static String menuSelection = "";
+    static LocalDate currentDate;
+    static LocalTime currentTime;
+
 
     public static void main(String[] args) {
         displayHomeMenu();
@@ -26,7 +33,7 @@ public class AccountingLedger {
             menuSelection = myScanner.nextLine();
 
             switch (menuSelection) { // Redirects user to requested menu or tool
-//                case "D" -> addDeposit();
+                case "D" -> addDeposit();
 //                case "P" -> makePayment();
                 case "L" -> displayLedger();
                 case "X" -> System.out.println("Thanks for using my application!");
@@ -60,5 +67,13 @@ public class AccountingLedger {
                 default -> System.err.println("Invalid input! Please input a valid character.");
             }
         } while(!Objects.equals(menuSelection, "H"));
+    }
+    public static void addDeposit() {
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv")) { // Try with resources; closes FileWriter when done.
+
+
+        } catch (java.io.IOException e) {
+            System.err.println("An error occurred: " + e);
+        }
     }
 }
