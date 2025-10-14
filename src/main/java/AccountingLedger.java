@@ -107,7 +107,7 @@ public class AccountingLedger {
             System.err.println("An error occurred: " + e);
         }
     }
-
+//  IMPORTANT: Needs to display in order from newest to oldest, still incomplete
     public static void displayAll() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
             do {
