@@ -70,7 +70,12 @@ public class AccountingLedger {
     }
     public static void addDeposit() {
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv")) { // Try with resources; closes FileWriter when done.
+            System.out.print("Please input your name or organization: ");
+            String userName = myScanner.nextLine();
+            System.out.print("Next, please input the amount you wish to deposit:");
+            String depositAmount = myScanner.nextLine();
 
+            fileWriter.write(LocalDate.now() + "|" + LocalTime.now() + "|" + userName + "|" + depositAmount);
 
         } catch (java.io.IOException e) {
             System.err.println("An error occurred: " + e);
