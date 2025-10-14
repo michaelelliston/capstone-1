@@ -32,14 +32,14 @@ public class AccountingLedger {
             menuSelection = myScanner.nextLine();
 
             switch (menuSelection) { // Redirects user to requested menu or tool
-                case "D" -> addDeposit();
-                case "P" -> makePayment();
-                case "L" -> displayLedger();
-                case "X" -> System.out.println("Thanks for using my application!");
+                case "D", "d" -> addDeposit();
+                case "P", "p" -> makePayment();
+                case "L", "l" -> displayLedger();
+                case "X", "x" -> System.out.println("Thanks for using my application!");
                 default ->
                         System.err.println("Invalid input! Please input a valid character."); // Prints an error message if input is invalid
             }
-        } while (!Objects.equals(menuSelection, "X"));
+        } while (!menuSelection.equalsIgnoreCase("x"));
     }
 
     public static void displayLedger() {
@@ -59,15 +59,15 @@ public class AccountingLedger {
             menuSelection = myScanner.nextLine();
 
             switch (menuSelection) {
-//            case "A" -> displayAll();
-//            case "D" -> displayDeposits();
-//            case "P" -> displayPayments();
-//            case "R" -> reportsMenu();
-                case "H" -> {
+//            case "A", "a" -> displayAll();
+//            case "D", "d" -> displayDeposits();
+//            case "P", "p" -> displayPayments();
+//            case "R", "r" -> reportsMenu();
+                case "H", "h" -> {
                 }
                 default -> System.err.println("Invalid input! Please input a valid character.");
             }
-        } while (!Objects.equals(menuSelection, "H"));
+        } while (!menuSelection.equalsIgnoreCase("h"));
     }
 
     public static void addDeposit() {
