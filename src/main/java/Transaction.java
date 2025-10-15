@@ -12,4 +12,9 @@ public class Transaction {
         this.vendor = vendor;
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return this.date + "|" + this.time + "|" + this.description + "|" + this.vendor + "|" + this.amount;
+    }
 }

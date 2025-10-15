@@ -10,9 +10,28 @@ public class AccountingLedger {
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
     static String formattedDate = "";
     static String line;
+    static ArrayList<String> lines = new ArrayList<>();
+    static ArrayList<Transaction> transactions = new ArrayList<>();
 
     public static void main(String[] args) {
-        displayHomeMenu();
+        // Try with resources, so the reader is closed after being used.
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
+
+            bufferedReader.readLine(); // Reads the header so it isn't printed
+
+            while ((line = bufferedReader.readLine()) != null) { // Adds each readable line to an Array List, and converts into Transaction
+                lines.add(line);
+                addTransaction(line);
+            }
+
+        } catch (FileNotFoundException e) {
+            System.err.println("Error! File not found: " + e);
+        } catch (IOException e) {
+            System.err.println("Error! An IO Error occurred: " + e);
+        }
+
+
+        displayHomeMenu();  // Launches into the first menu of the application
     }
 
     public static void displayHomeMenu() {
@@ -20,14 +39,14 @@ public class AccountingLedger {
         // Beginning of do-while loop, should always loop back to Home Screen unless user inputs X to exit
         do {
             System.out.print("""
-                   \s
-                    ------------- Home Screen -------------
-                    \tD) Add Deposit
-                    \tP) Make Payment (Debit)
-                    \tL) Ledger
-                    \tX) Exit
-                   
-                    Please input the character that corresponds to your selection:\s""");
+                    \s
+                     ------------- Home Screen -------------
+                     \tD) Add Deposit
+                     \tP) Make Payment (Debit)
+                     \tL) Ledger
+                     \tX) Exit
+                    
+                     Please input the character that corresponds to your selection:\s""");
             menuSelection = myScanner.nextLine();
 
             System.out.println(); // Prints blank line for better readability
@@ -65,7 +84,8 @@ public class AccountingLedger {
                 case "D", "d" -> displayDeposits();
                 case "P", "p" -> displayPayments();
                 case "R", "r" -> reportsMenu();
-                case "H", "h" -> {}
+                case "H", "h" -> {
+                }
                 default -> System.err.println("Invalid input! Please input a valid character.");
             }
         } while (!menuSelection.equalsIgnoreCase("h"));
@@ -84,6 +104,7 @@ public class AccountingLedger {
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
+            lines.add(formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
 
             System.out.println("Thank you! Your deposit has been recorded.");
 
@@ -104,6 +125,7 @@ public class AccountingLedger {
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
+            lines.add(formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
 
             System.out.println("Thank you! Your payment has been recorded.");
 
@@ -114,58 +136,31 @@ public class AccountingLedger {
 
     public static void displayAll() {
         System.out.println();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
-            ArrayList<String> lines = new ArrayList<>();
-            bufferedReader.readLine(); // Reads the header, so it isn't printed
 
-            while ((line = bufferedReader.readLine()) != null) { // Adds each readable line to an Array List
-                lines.add(line);
-            }
-
-            for (int i = lines.size() - 1; i >= 0; i--) { // Goes through each line from bottom to top and prints them
-                System.out.println(lines.get(i));
-            }
-
-            System.out.print("\nInput any key to continue: ");
-            myScanner.nextLine();
-
-        } catch (FileNotFoundException e) {
-            System.err.println("Error! File not found: " + e);
-        } catch (IOException e) {
-            System.err.println("Error! An IO Error occurred: " + e);
+        for (int i = lines.size() - 1; i >= 0; i--) { // Goes through each line from bottom to top and prints them
+            System.out.println(lines.get(i));
         }
+
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
+
     }
 
     public static void displayDeposits() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
-            ArrayList<String> lines = new ArrayList<>();
-            bufferedReader.readLine(); // Reads the header so it isn't printed
 
-            while ((line = bufferedReader.readLine()) != null) { // Reads each line, and assigns it's value to input each loop
-                String[] values = line.split("\\|");
-                double amount = Double.parseDouble(values[4].trim()); // Searches for a double from the 'amount' value, then checks if it's above 0
-                if (amount > 0) {
-                    lines.add(line);
-                }
-            }
+        String[] values = line.split("\\|");
+        double amount = Double.parseDouble(values[4].trim()); // Searches for a double from the 'amount' value, then checks if it's above 0
 
-            for (int i = lines.size() - 1; i >= 0; i--) {
+        for (int i = lines.size() - 1; i >= 0; i--)
+            if (amount >= 0) {
                 System.out.println(lines.get(i));
             }
-
-            System.out.print("\nInput any key to continue: ");
-            myScanner.nextLine();
-
-        } catch (FileNotFoundException e) {
-            System.err.println("Error! File not found: " + e);
-        } catch (IOException e) {
-            System.err.println("Error! An IO Error occurred: " + e);
-        }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
     }
 
     public static void displayPayments() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
-            ArrayList<String> lines = new ArrayList<>();
             bufferedReader.readLine();
 
             while ((line = bufferedReader.readLine()) != null) {
@@ -216,9 +211,21 @@ public class AccountingLedger {
 //                case 3 -> yearToDate();
 //                case 4 -> previousYear();
 //                case 5 -> searchByVendor();
-                case 0 -> {}
+                case 0 -> {
+                }
                 default -> System.err.println("Invalid input! Please input a valid number.");
             }
         } while (reportMenuSelection != 0);
+    }
+
+    public static void addTransaction(String line) {  // Creates Transaction objects
+        String[] values = line.split("\\|");
+        String date = values[0];
+        String time = values[1];
+        String description = values[2];
+        String vendor = values[3];
+        double amount = Double.parseDouble(values[4]);
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(transaction);
     }
 }
