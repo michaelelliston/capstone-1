@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -199,7 +200,16 @@ public class AccountingLedger {
     }
 
     public static void monthToDate() {
+        LocalDate today = LocalDate.now();
 
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+           int transactionMonth = transactions.get(i).getMonth();
+            if (transactionMonth == today.getMonthValue()) {
+                System.out.println(transactions.get(i));
+            }
+        }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
     }
 
     public static void addTransaction(String line) {  // Creates Transaction objects

@@ -13,6 +13,11 @@ public class Transaction {
         this.amount = amount;
     }
 
+    public int getMonth() {
+        String[] values = this.getDate().split("-");
+        return Integer.parseInt(values[1]);
+    }
+
     public String getDate() {
         return date;
     }
