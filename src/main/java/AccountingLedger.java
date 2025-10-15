@@ -64,9 +64,8 @@ public class AccountingLedger {
                 case "A", "a" -> displayAll();
                 case "D", "d" -> displayDeposits();
                 case "P", "p" -> displayPayments();
-//                case "R", "r" -> reportsMenu();
-                case "H", "h" -> {
-                }
+                case "R", "r" -> reportsMenu();
+                case "H", "h" -> {}
                 default -> System.err.println("Invalid input! Please input a valid character.");
             }
         } while (!menuSelection.equalsIgnoreCase("h"));
@@ -112,7 +111,7 @@ public class AccountingLedger {
             System.err.println("An error occurred: " + e);
         }
     }
-//  IMPORTANT: Needs to display in order from newest to oldest, still incomplete
+
     public static void displayAll() {
         System.out.println();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
@@ -189,5 +188,37 @@ public class AccountingLedger {
         } catch (IOException e) {
             System.err.println("Error! An IO Error occurred: " + e);
         }
+    }
+
+    public static void reportsMenu() {
+        int reportMenuSelection;
+
+        do {
+            System.out.print("""
+                    
+                    ------------- Reports -------------
+                    \t1) Month To Date
+                    \t2) Previous Month
+                    \t3) Year To Date
+                    \t4) Previous Year
+                    \t5) Search by Vendor
+                    \t0) Back
+                    
+                    Please input the number that corresponds to your selection:\s""");
+
+            reportMenuSelection = Integer.parseInt(myScanner.nextLine());
+
+            System.out.println();
+
+            switch (reportMenuSelection) {
+//                case 1 -> monthToDate();
+//                case 2 -> previousMonth();
+//                case 3 -> yearToDate();
+//                case 4 -> previousYear();
+//                case 5 -> searchByVendor();
+                case 0 -> {}
+                default -> System.err.println("Invalid input! Please input a valid number.");
+            }
+        } while (reportMenuSelection != 0);
     }
 }
