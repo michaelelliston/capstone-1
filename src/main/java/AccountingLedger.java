@@ -11,7 +11,6 @@ public class AccountingLedger {
     static String formattedDate = "";
     static String line;
     static ArrayList<String> transactions = new ArrayList<String>(); // Used later to store all transaction objects
-    static ArrayList<String> lines = new ArrayList<String>(); // Used later to store and sort lines that are read
 
     public static void main(String[] args) {
         displayHomeMenu();
@@ -118,15 +117,18 @@ public class AccountingLedger {
     public static void displayAll() {
         System.out.println();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
+            ArrayList<String> lines = new ArrayList<>();
             bufferedReader.readLine(); // Reads the header, so it isn't printed
-            do {
-                line = bufferedReader.readLine();
-                if (line != null) {
-                    System.out.println(line);
-                }
-            } while (line != null);
 
-            System.out.println("\nInput any key to continue");
+            while ((line = bufferedReader.readLine()) != null) { // Adds each readable line to an Array List
+                lines.add(line);
+            }
+
+            for (int i = lines.size() - 1; i >= 0; i--) { // Goes through each line from bottom to top and prints them
+                System.out.println(lines.get(i));
+            }
+
+            System.out.print("\nInput any key to continue: ");
             myScanner.nextLine();
 
         } catch (FileNotFoundException e) {
@@ -138,18 +140,22 @@ public class AccountingLedger {
 
     public static void displayDeposits() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
-
+            ArrayList<String> lines = new ArrayList<String>();
             bufferedReader.readLine(); // Reads the header so it isn't printed
 
             while ((line = bufferedReader.readLine()) != null) { // Reads each line, and assigns it's value to input each loop
                 String[] values = line.split("\\|");
                 double amount = Double.parseDouble(values[4].trim()); // Searches for a double from the 'amount' value, then checks if it's above 0
                 if (amount > 0) {
-                    System.out.println(line);
+                    lines.add(line);
                 }
             }
 
-            System.out.println("\nInput any key to continue");
+            for (int i = lines.size() - 1; i >= 0; i--) {
+                System.out.println(lines.get(i));
+            }
+
+            System.out.print("\nInput any key to continue: ");
             myScanner.nextLine();
 
         } catch (FileNotFoundException e) {
