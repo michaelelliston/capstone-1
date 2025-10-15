@@ -203,7 +203,10 @@ public class AccountingLedger {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            if (transactions.get(i).getMonth() == today.getMonthValue()) {
+                displayTransactions(i);
             }
+        }
         System.out.print("\nInput any key to continue: ");
         myScanner.nextLine();
     }
