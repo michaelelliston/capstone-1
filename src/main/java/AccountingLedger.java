@@ -11,6 +11,7 @@ public class AccountingLedger {
     static String formattedDate = "";
     static String line;
     static ArrayList<String> transactions = new ArrayList<String>(); // Used later to store all transaction objects
+    static ArrayList<String> lines = new ArrayList<String>(); // Used later to store and sort lines that are read
 
     public static void main(String[] args) {
         displayHomeMenu();
@@ -30,6 +31,8 @@ public class AccountingLedger {
                    
                     Please input the character that corresponds to your selection:\s""");
             menuSelection = myScanner.nextLine();
+
+            System.out.println(); // Prints blank line for better readability
 
             switch (menuSelection) { // Redirects user to requested menu or tool
                 case "D", "d" -> addDeposit();
@@ -56,6 +59,8 @@ public class AccountingLedger {
                     
                     Please input the character that corresponds to your selection:\s""");
             menuSelection = myScanner.nextLine();
+
+            System.out.println();
 
             switch (menuSelection) {
                 case "A", "a" -> displayAll();
@@ -113,6 +118,7 @@ public class AccountingLedger {
     public static void displayAll() {
         System.out.println();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
+            bufferedReader.readLine(); // Reads the header, so it isn't printed
             do {
                 line = bufferedReader.readLine();
                 if (line != null) {
@@ -135,10 +141,17 @@ public class AccountingLedger {
 
             bufferedReader.readLine(); // Reads the header so it isn't printed
 
-            String input;
-            while ((input = bufferedReader.readLine()) != null) {
-
+            while ((line = bufferedReader.readLine()) != null) { // Reads each line, and assigns it's value to input each loop
+                String[] values = line.split("\\|");
+                double amount = Double.parseDouble(values[4].trim()); // Searches for a double from the 'amount' value, then checks if it's above 0
+                if (amount > 0) {
+                    System.out.println(line);
+                }
             }
+
+            System.out.println("\nInput any key to continue");
+            myScanner.nextLine();
+
         } catch (FileNotFoundException e) {
             System.err.println("Error! File not found: " + e);
         } catch (IOException e) {
