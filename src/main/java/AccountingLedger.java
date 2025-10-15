@@ -205,7 +205,7 @@ public class AccountingLedger {
         for (int i = transactions.size() - 1; i >= 0; i--) {
            int transactionMonth = transactions.get(i).getMonth();
             if (transactionMonth == today.getMonthValue()) {
-                System.out.println(transactions.get(i));
+                displayTransactions(i);
             }
         }
         System.out.print("\nInput any key to continue: ");
@@ -221,5 +221,13 @@ public class AccountingLedger {
         double amount = Double.parseDouble(values[4]);
         Transaction transaction = new Transaction(date, time, description, vendor, amount);
         transactions.add(transaction);
+    }
+
+    public static void displayTransactions(Integer i) {
+        System.out.printf(transactions.get(i).getDate()
+                + "|" + transactions.get(i).getTime()
+                + "|" + transactions.get(i).getDescription()
+                + "|" + transactions.get(i).getVendor()
+                + "|%,.2f\n", transactions.get(i).getAmount());
     }
 }
