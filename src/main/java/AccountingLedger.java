@@ -146,9 +146,9 @@ public class AccountingLedger {
 
     public static void displayDeposits() {
 
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() > 0) {
-                System.out.println(transaction);
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            if (transactions.get(i).getAmount() > 0) {
+                System.out.println(transactions.get(i));
             }
         }
         System.out.print("\nInput any key to continue: ");
@@ -186,7 +186,7 @@ public class AccountingLedger {
             System.out.println();
 
             switch (reportMenuSelection) {
-//                case 1 -> monthToDate();
+                case 1 -> monthToDate();
 //                case 2 -> previousMonth();
 //                case 3 -> yearToDate();
 //                case 4 -> previousYear();
@@ -196,6 +196,10 @@ public class AccountingLedger {
                 default -> System.err.println("Invalid input! Please input a valid number.");
             }
         } while (reportMenuSelection != 0);
+    }
+
+    public static void monthToDate() {
+
     }
 
     public static void addTransaction(String line) {  // Creates Transaction objects
