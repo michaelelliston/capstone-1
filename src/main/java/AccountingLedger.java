@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
@@ -9,6 +10,7 @@ public class AccountingLedger {
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
     static String formattedDate = "";
     static String line;
+    static ArrayList<String> transactions = new ArrayList<String>(); // Used later to store all transaction objects
 
     public static void main(String[] args) {
         displayHomeMenu();
@@ -57,7 +59,7 @@ public class AccountingLedger {
 
             switch (menuSelection) {
                 case "A", "a" -> displayAll();
-//                case "D", "d" -> displayDeposits();
+                case "D", "d" -> displayDeposits();
 //                case "P", "p" -> displayPayments();
 //                case "R", "r" -> reportsMenu();
                 case "H", "h" -> {
@@ -121,6 +123,22 @@ public class AccountingLedger {
             System.out.println("\nInput any key to continue");
             myScanner.nextLine();
 
+        } catch (FileNotFoundException e) {
+            System.err.println("Error! File not found: " + e);
+        } catch (IOException e) {
+            System.err.println("Error! An IO Error occurred: " + e);
+        }
+    }
+
+    public static void displayDeposits() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
+
+            bufferedReader.readLine(); // Reads the header so it isn't printed
+
+            String input;
+            while ((input = bufferedReader.readLine()) != null) {
+
+            }
         } catch (FileNotFoundException e) {
             System.err.println("Error! File not found: " + e);
         } catch (IOException e) {
