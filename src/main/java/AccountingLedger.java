@@ -10,18 +10,16 @@ public class AccountingLedger {
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
     static String formattedDate = "";
     static String line;
-    static ArrayList<String> lines = new ArrayList<>();
     static ArrayList<Transaction> transactions = new ArrayList<>();
 
     public static void main(String[] args) {
         // Try with resources, so the reader is closed after being used.
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
 
-            bufferedReader.readLine(); // Reads the header so it isn't printed
+            bufferedReader.readLine(); // Reads the header so it isn't added to ArrayList
 
             while ((line = bufferedReader.readLine()) != null) { // Adds each readable line to an Array List, and converts into Transaction
-                lines.add(line);
-                addTransaction(line);
+                addTransaction(line); // Splits line into appropriate data types for the Transaction object, then adds object to ArrayList
             }
 
         } catch (FileNotFoundException e) {
@@ -29,8 +27,6 @@ public class AccountingLedger {
         } catch (IOException e) {
             System.err.println("Error! An IO Error occurred: " + e);
         }
-
-
         displayHomeMenu();  // Launches into the first menu of the application
     }
 
@@ -104,7 +100,8 @@ public class AccountingLedger {
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
-            lines.add(formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
+            line = formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount;
+            addTransaction(line);
 
             System.out.println("Thank you! Your deposit has been recorded.");
 
@@ -125,7 +122,8 @@ public class AccountingLedger {
             formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
-            lines.add(formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
+            line = formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount;
+            addTransaction(line);
 
             System.out.println("Thank you! Your payment has been recorded.");
 
@@ -137,8 +135,8 @@ public class AccountingLedger {
     public static void displayAll() {
         System.out.println();
 
-        for (int i = lines.size() - 1; i >= 0; i--) { // Goes through each line from bottom to top and prints them
-            System.out.println(lines.get(i));
+        for (int i = transactions.size() - 1; i >= 0; i--) { // Goes through each line from bottom to top and prints them
+            System.out.println(transactions.get(i));
         }
 
         System.out.print("\nInput any key to continue: ");
@@ -148,15 +146,13 @@ public class AccountingLedger {
 
     public static void displayDeposits() {
 
-        String[] values = line.split("\\|");
-        double amount = Double.parseDouble(values[4].trim()); // Searches for a double from the 'amount' value, then checks if it's above 0
-
-        for (int i = lines.size() - 1; i >= 0; i--)
-            if (amount >= 0) {
-                System.out.println(lines.get(i));
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() > 0) {
+                System.out.println(transaction);
             }
-        System.out.print("\nInput any key to continue: ");
-        myScanner.nextLine();
+            System.out.print("\nInput any key to continue: ");
+            myScanner.nextLine();
+        }
     }
 
     public static void displayPayments() {
@@ -166,13 +162,10 @@ public class AccountingLedger {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] values = line.split("\\|");
                 double amount = Double.parseDouble(values[4].trim());
-                if (amount < 0) {
-                    lines.add(line);
+                for (int i = transactions.size() - 1; i >= 0; i--)
+                    if (amount < 0) {
+                        System.out.println(transactions.get(i));
                 }
-            }
-
-            for (int i = lines.size() - 1; i >= 0; i--) {
-                System.out.println(lines.get(i));
             }
 
             System.out.print("\nInput any key to continue: ");
