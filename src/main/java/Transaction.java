@@ -1,29 +1,18 @@
 public class Transaction {
-    private String date;
-    private String time;
+    private String dateTime;
     private String description;
     private String vendor;
     private double amount;
 
-    public Transaction(String date, String time, String description, String vendor, Double amount) {
-        this.date = date;
-        this.time = time;
+    public Transaction(String dateTime, String description, String vendor, Double amount) {
+        this.dateTime = dateTime;
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
     }
 
-    public int getMonth() {
-        String[] values = this.getDate().split("-");
-        return Integer.parseInt(values[1]);
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
+    public String getDateTime() {
+        return dateTime;
     }
 
     public String getDescription() {
@@ -40,6 +29,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return this.date + "|" + this.time + "|" + this.description + "|" + this.vendor + "|" + this.amount;
+        return this.dateTime + "|" + this.description + "|" + this.vendor + "|" + this.amount;
     }
 }

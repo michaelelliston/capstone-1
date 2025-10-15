@@ -203,29 +203,23 @@ public class AccountingLedger {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
-           int transactionMonth = transactions.get(i).getMonth();
-            if (transactionMonth == today.getMonthValue()) {
-                displayTransactions(i);
             }
-        }
         System.out.print("\nInput any key to continue: ");
         myScanner.nextLine();
     }
 
     public static void addTransaction(String line) {  // Creates Transaction objects
         String[] values = line.split("\\|");
-        String date = values[0];
-        String time = values[1];
+        String dateTime = values[0] + "|" + values[1];
         String description = values[2];
         String vendor = values[3];
         double amount = Double.parseDouble(values[4]);
-        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        Transaction transaction = new Transaction(dateTime, description, vendor, amount);
         transactions.add(transaction);
     }
 
     public static void displayTransactions(Integer i) {
-        System.out.printf(transactions.get(i).getDate()
-                + "|" + transactions.get(i).getTime()
+        System.out.printf(transactions.get(i).getDateTime()
                 + "|" + transactions.get(i).getDescription()
                 + "|" + transactions.get(i).getVendor()
                 + "|%,.2f\n", transactions.get(i).getAmount());
