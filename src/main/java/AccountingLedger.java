@@ -109,6 +109,7 @@ public class AccountingLedger {
     }
 //  IMPORTANT: Needs to display in order from newest to oldest, still incomplete
     public static void displayAll() {
+        System.out.println();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
             do {
                 line = bufferedReader.readLine();
