@@ -10,7 +10,6 @@ public class AccountingLedger {
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
     static String formattedDate = "";
     static String line;
-    static ArrayList<String> transactions = new ArrayList<String>(); // Used later to store all transaction objects
 
     public static void main(String[] args) {
         displayHomeMenu();
@@ -64,7 +63,7 @@ public class AccountingLedger {
             switch (menuSelection) {
                 case "A", "a" -> displayAll();
                 case "D", "d" -> displayDeposits();
-//                case "P", "p" -> displayPayments();
+                case "P", "p" -> displayPayments();
 //                case "R", "r" -> reportsMenu();
                 case "H", "h" -> {
                 }
@@ -140,13 +139,40 @@ public class AccountingLedger {
 
     public static void displayDeposits() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
-            ArrayList<String> lines = new ArrayList<String>();
+            ArrayList<String> lines = new ArrayList<>();
             bufferedReader.readLine(); // Reads the header so it isn't printed
 
             while ((line = bufferedReader.readLine()) != null) { // Reads each line, and assigns it's value to input each loop
                 String[] values = line.split("\\|");
                 double amount = Double.parseDouble(values[4].trim()); // Searches for a double from the 'amount' value, then checks if it's above 0
                 if (amount > 0) {
+                    lines.add(line);
+                }
+            }
+
+            for (int i = lines.size() - 1; i >= 0; i--) {
+                System.out.println(lines.get(i));
+            }
+
+            System.out.print("\nInput any key to continue: ");
+            myScanner.nextLine();
+
+        } catch (FileNotFoundException e) {
+            System.err.println("Error! File not found: " + e);
+        } catch (IOException e) {
+            System.err.println("Error! An IO Error occurred: " + e);
+        }
+    }
+
+    public static void displayPayments() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
+            ArrayList<String> lines = new ArrayList<>();
+            bufferedReader.readLine();
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] values = line.split("\\|");
+                double amount = Double.parseDouble(values[4].trim());
+                if (amount < 0) {
                     lines.add(line);
                 }
             }
