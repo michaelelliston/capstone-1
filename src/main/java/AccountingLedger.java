@@ -150,32 +150,19 @@ public class AccountingLedger {
             if (transaction.getAmount() > 0) {
                 System.out.println(transaction);
             }
-            System.out.print("\nInput any key to continue: ");
-            myScanner.nextLine();
         }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
     }
 
     public static void displayPayments() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/transactions.csv"))) {
-            bufferedReader.readLine();
-
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] values = line.split("\\|");
-                double amount = Double.parseDouble(values[4].trim());
-                for (int i = transactions.size() - 1; i >= 0; i--)
-                    if (amount < 0) {
-                        System.out.println(transactions.get(i));
-                }
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() < 0) {
+                System.out.println(transaction);
             }
-
-            System.out.print("\nInput any key to continue: ");
-            myScanner.nextLine();
-
-        } catch (FileNotFoundException e) {
-            System.err.println("Error! File not found: " + e);
-        } catch (IOException e) {
-            System.err.println("Error! An IO Error occurred: " + e);
         }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
     }
 
     public static void reportsMenu() {
