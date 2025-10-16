@@ -1,10 +1,10 @@
 import java.time.LocalDateTime;
 
 public class Transaction implements Comparable<Transaction> {
-    private LocalDateTime dateTime;
-    private String description;
-    private String vendor;
-    private double amount;
+    private final LocalDateTime dateTime;
+    private final String description;
+    private final String vendor;
+    private final double amount;
 
     public Transaction(LocalDateTime dateTime, String description, String vendor, Double amount) {
         this.dateTime = dateTime;
@@ -13,6 +13,10 @@ public class Transaction implements Comparable<Transaction> {
         this.amount = amount;
     }
 
+    /**
+     * Splits a LocalDateTime value
+     * @return the LocalDateTime's month value as an integer
+     */
     public int getMonth() {
         String dateTime = toString();
         String[] valueDate = dateTime.split("\\|");
@@ -20,11 +24,15 @@ public class Transaction implements Comparable<Transaction> {
         return Integer.parseInt(valueMonth[1]);
     }
 
+    /**
+     * Splits a LocalDateTime value
+     * @return the LocalDateTime's year value as an integer
+     */
     public int getYear() {
         String dateTime = toString();
         String[] valueDate = dateTime.split("\\|");
-        String[] valueMonth = valueDate[0].split("-");
-        return Integer.parseInt(valueMonth[0]);
+        String[] valueYear = valueDate[0].split("-");
+        return Integer.parseInt(valueYear[0]);
     }
 
     public LocalDateTime getDateTime() {
@@ -48,6 +56,10 @@ public class Transaction implements Comparable<Transaction> {
         return getDateTime() + "|" + this.description + "|" + this.vendor + "|" + this.amount;
     }
 
+    /**
+     * @param otherTransaction is compared with another transaction's LocalDateTime
+     * @return the order to sort them by LocalDateTime
+     */
     @Override
     public int compareTo(Transaction otherTransaction) {
         return this.dateTime.compareTo(otherTransaction.getDateTime());
