@@ -188,10 +188,10 @@ public class AccountingLedger {
             System.out.println();
 
             switch (reportMenuSelection) {
-                case 1 -> monthToDate();
-                case 2 -> previousMonth();
-                case 3 -> yearToDate();
-                case 4 -> previousYear();
+                case 1 -> displayByMonth(0);
+                case 2 -> displayByMonth(1);
+                case 3 -> displayByYear(0);
+                case 4 -> displayByYear(1);
 //                case 5 -> searchByVendor();
                 case 0 -> {
                 }
@@ -200,11 +200,11 @@ public class AccountingLedger {
         } while (reportMenuSelection != 0);
     }
 
-    public static void monthToDate() {
+    public static void displayByMonth(Integer number) {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getMonth() == today.getMonthValue()) {
+            if (transactions.get(i).getMonth() == today.getMonthValue() - number) {
                 displayTransactions(i);
             }
         }
@@ -212,35 +212,11 @@ public class AccountingLedger {
         myScanner.nextLine();
     }
 
-    public static void previousMonth() {
+    public static void displayByYear(Integer number) {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getMonth() == today.getMonthValue() - 1) {
-                displayTransactions(i);
-            }
-        }
-        System.out.print("\nInput any key to continue: ");
-        myScanner.nextLine();
-    }
-
-    public static void yearToDate() {
-        LocalDate today = LocalDate.now();
-
-        for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getYear() == today.getYear()) {
-                displayTransactions(i);
-            }
-        }
-        System.out.print("\nInput any key to continue: ");
-        myScanner.nextLine();
-    }
-
-    public static void previousYear() {
-        LocalDate today = LocalDate.now();
-
-        for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getYear() == today.getYear() - 1) {
+            if (transactions.get(i).getYear() == today.getYear() - number) {
                 displayTransactions(i);
             }
         }
