@@ -15,6 +15,7 @@ public class Transaction implements Comparable<Transaction> {
 
     /**
      * Splits a LocalDateTime value
+     *
      * @return the LocalDateTime's month value as an integer
      */
     public int getMonth() {
@@ -26,6 +27,7 @@ public class Transaction implements Comparable<Transaction> {
 
     /**
      * Splits a LocalDateTime value
+     *
      * @return the LocalDateTime's year value as an integer
      */
     public int getYear() {

@@ -189,12 +189,11 @@ public class AccountingLedger {
 
             switch (reportMenuSelection) {
                 case 1 -> displayByMonth(0);
-                case 2 -> displayByMonth(1); // Will display Previous Month by passing in a 1 to subtract from the value of Month by
+                case 2 -> displayByMonth(1); // Will display Previous Month by passing in a 1 to subtract from the value of Month
                 case 3 -> displayByYear(0);
-                case 4 -> displayByYear(1);
+                case 4 -> displayByYear(1); // Likewise, this displays Previous Year
                 case 5 -> searchByVendor();
-                case 0 -> {
-                }
+                case 0 -> {}
                 default -> System.err.println("\nInvalid input! Please input a valid number.");
             }
         } while (reportMenuSelection != 0);
