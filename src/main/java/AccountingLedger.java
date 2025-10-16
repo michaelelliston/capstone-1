@@ -222,6 +222,7 @@ public class AccountingLedger {
     }
 
     public static void displayTransactions(Integer i) {
+        // Printing like this lets me format the decimals
         System.out.printf(transactions.get(i).getDateTime()
                 + "|" + transactions.get(i).getDescription()
                 + "|" + transactions.get(i).getVendor()
