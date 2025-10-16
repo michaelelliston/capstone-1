@@ -92,7 +92,7 @@ public class AccountingLedger {
     public static void addDeposit() {
         // Try with resources, so the FileWriter is closed after use. Append set to true.
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) {
-            System.out.print("Please input your name or organization: ");
+            System.out.print("Please input the vendor's name: ");
             String userName = myScanner.nextLine();
             System.out.print("Next, please input the amount you wish to deposit: ");
             String depositAmount = myScanner.nextLine();
@@ -114,7 +114,7 @@ public class AccountingLedger {
 
     public static void makePayment() {
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true)) {
-            System.out.print("Please input your name or organization: ");
+            System.out.print("Please input the vendor's name: ");
             String userName = myScanner.nextLine();
             System.out.print("Next, please input the cost of your payment: ");
             String paymentAmount = myScanner.nextLine();
