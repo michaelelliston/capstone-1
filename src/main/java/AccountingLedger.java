@@ -189,9 +189,9 @@ public class AccountingLedger {
 
             switch (reportMenuSelection) {
                 case 1 -> monthToDate();
-//                case 2 -> previousMonth();
+                case 2 -> previousMonth();
                 case 3 -> yearToDate();
-//                case 4 -> previousYear();
+                case 4 -> previousYear();
 //                case 5 -> searchByVendor();
                 case 0 -> {
                 }
@@ -212,11 +212,35 @@ public class AccountingLedger {
         myScanner.nextLine();
     }
 
+    public static void previousMonth() {
+        LocalDate today = LocalDate.now();
+
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            if (transactions.get(i).getMonth() == today.getMonthValue() - 1) {
+                displayTransactions(i);
+            }
+        }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
+    }
+
     public static void yearToDate() {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
             if (transactions.get(i).getYear() == today.getYear()) {
+                displayTransactions(i);
+            }
+        }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
+    }
+
+    public static void previousYear() {
+        LocalDate today = LocalDate.now();
+
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            if (transactions.get(i).getYear() == today.getYear() - 1) {
                 displayTransactions(i);
             }
         }
