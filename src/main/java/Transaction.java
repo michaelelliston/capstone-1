@@ -20,6 +20,13 @@ public class Transaction implements Comparable<Transaction> {
         return Integer.parseInt(valueMonth[1]);
     }
 
+    public int getYear() {
+        String dateTime = toString();
+        String[] valueDate = dateTime.split("\\|");
+        String[] valueMonth = valueDate[0].split("-");
+        return Integer.parseInt(valueMonth[0]);
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
