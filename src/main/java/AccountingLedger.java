@@ -189,10 +189,10 @@ public class AccountingLedger {
 
             switch (reportMenuSelection) {
                 case 1 -> displayByMonth(0);
-                case 2 -> displayByMonth(1);
+                case 2 -> displayByMonth(1); // Will display Previous Month by passing in a 1 to subtract from the value of Month by
                 case 3 -> displayByYear(0);
                 case 4 -> displayByYear(1);
-//                case 5 -> searchByVendor();
+                case 5 -> searchByVendor();
                 case 0 -> {
                 }
                 default -> System.err.println("Invalid input! Please input a valid number.");
@@ -217,6 +217,20 @@ public class AccountingLedger {
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
             if (transactions.get(i).getYear() == today.getYear() - number) {
+                displayTransactions(i);
+            }
+        }
+        System.out.print("\nInput any key to continue: ");
+        myScanner.nextLine();
+    }
+
+    public static void searchByVendor() {
+        System.out.print("Please input the vendor name to search by: ");
+        String input = myScanner.nextLine();
+        System.out.println();
+
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            if (transactions.get(i).getVendor().equalsIgnoreCase(input)) {
                 displayTransactions(i);
             }
         }
