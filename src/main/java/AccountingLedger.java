@@ -55,7 +55,7 @@ public class AccountingLedger {
                 case "L", "l" -> displayLedger();
                 case "X", "x" -> System.out.println("Thanks for using my application!");
                 default ->
-                        System.err.println("Invalid input! Please input a valid character."); // Prints an error message if input is invalid
+                        System.err.println("\nInvalid input! Please input a valid character."); // Prints an error message if input is invalid
             }
         } while (!menuSelection.equalsIgnoreCase("x"));
     }
@@ -84,7 +84,7 @@ public class AccountingLedger {
                 case "R", "r" -> reportsMenu();
                 case "H", "h" -> {
                 }
-                default -> System.err.println("Invalid input! Please input a valid character.");
+                default -> System.err.println("\nInvalid input! Please input a valid character.");
             }
         } while (!menuSelection.equalsIgnoreCase("h"));
     }
@@ -195,11 +195,15 @@ public class AccountingLedger {
                 case 5 -> searchByVendor();
                 case 0 -> {
                 }
-                default -> System.err.println("Invalid input! Please input a valid number.");
+                default -> System.err.println("\nInvalid input! Please input a valid number.");
             }
         } while (reportMenuSelection != 0);
     }
 
+    /**
+     * @param number allows this method to work as both Month to Date and Previous Month by
+     *               passing in either a 0 or 1 to subtract from the value of the current month
+     */
     public static void displayByMonth(Integer number) {
         LocalDate today = LocalDate.now();
 
@@ -212,6 +216,10 @@ public class AccountingLedger {
         myScanner.nextLine();
     }
 
+    /**
+     * @param number allows this method to work as both Year to Date and Previous Year by
+     *               passing in either a 0 or 1 to subtract from the value of the current year
+     */
     public static void displayByYear(Integer number) {
         LocalDate today = LocalDate.now();
 
