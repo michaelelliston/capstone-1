@@ -1,13 +1,12 @@
-public class Transaction {
-    private String dateTime;
+import java.time.LocalDateTime;
+
+public class Transaction implements Comparable<Transaction> {
+    private LocalDateTime dateTime;
     private String description;
     private String vendor;
     private double amount;
-    private double date;
-    private double time;
 
-
-    public Transaction(String dateTime, String description, String vendor, Double amount) {
+    public Transaction(LocalDateTime dateTime, String description, String vendor, Double amount) {
         this.dateTime = dateTime;
         this.description = description;
         this.vendor = vendor;
@@ -15,13 +14,13 @@ public class Transaction {
     }
 
     public int getMonth() {
-        String dateTime = getDateTime();
+        String dateTime = toString();
         String[] valueDate = dateTime.split("\\|");
         String[] valueMonth = valueDate[0].split("-");
         return Integer.parseInt(valueMonth[1]);
     }
 
-    public String getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
@@ -39,6 +38,11 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return this.dateTime + "|" + this.description + "|" + this.vendor + "|" + this.amount;
+        return getDateTime() + "|" + this.description + "|" + this.vendor + "|" + this.amount;
+    }
+
+    @Override
+    public int compareTo(Transaction otherTransaction) {
+        return this.dateTime.compareTo(otherTransaction.getDateTime());
     }
 }

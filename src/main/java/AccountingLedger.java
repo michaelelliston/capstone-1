@@ -2,14 +2,14 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
 public class AccountingLedger {
     static Scanner myScanner = new Scanner(System.in);
     static String menuSelection = "";
-    static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
-    static String formattedDate = "";
+    static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d|HH:mm:ss");
     static String line;
     static ArrayList<Transaction> transactions = new ArrayList<>();
 
@@ -28,6 +28,7 @@ public class AccountingLedger {
         } catch (IOException e) {
             System.err.println("Error! An IO Error occurred: " + e);
         }
+        Collections.sort(transactions);
         displayHomeMenu();  // Launches into the first menu of the application
     }
 
@@ -98,7 +99,7 @@ public class AccountingLedger {
             System.out.print("Finally, please input a small description of your deposit: ");
             String depositDescription = myScanner.nextLine();
 
-            formattedDate = LocalDateTime.now().format(dateTimeFormatter);
+            String formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount);
             line = formattedDate + "|" + depositDescription + "|" + userName + "|" + depositAmount;
@@ -120,7 +121,7 @@ public class AccountingLedger {
             System.out.print("Finally, please input what your payment is for: ");
             String paymentDescription = myScanner.nextLine();
 
-            formattedDate = LocalDateTime.now().format(dateTimeFormatter);
+            String formattedDate = LocalDateTime.now().format(dateTimeFormatter);
 
             fileWriter.write("\n" + formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount);
             line = formattedDate + "|" + paymentDescription + "|" + userName + "|-" + paymentAmount;
@@ -137,7 +138,7 @@ public class AccountingLedger {
         System.out.println();
 
         for (int i = transactions.size() - 1; i >= 0; i--) { // Goes through each line from bottom to top and prints them
-            System.out.println(transactions.get(i));
+            displayTransactions(i);
         }
 
         System.out.print("\nInput any key to continue: ");
@@ -149,7 +150,7 @@ public class AccountingLedger {
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
             if (transactions.get(i).getAmount() > 0) {
-                System.out.println(transactions.get(i));
+                displayTransactions(i);
             }
         }
         System.out.print("\nInput any key to continue: ");
@@ -157,9 +158,9 @@ public class AccountingLedger {
     }
 
     public static void displayPayments() {
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() < 0) {
-                System.out.println(transaction);
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            if (transactions.get(i).getAmount() < 0) {
+                displayTransactions(i);
             }
         }
         System.out.print("\nInput any key to continue: ");
@@ -214,18 +215,20 @@ public class AccountingLedger {
     public static void addTransaction(String line) {  // Creates Transaction objects
         String[] values = line.split("\\|");
         String dateTime = values[0] + "|" + values[1];
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
         String description = values[2];
         String vendor = values[3];
         double amount = Double.parseDouble(values[4]);
-        Transaction transaction = new Transaction(dateTime, description, vendor, amount);
+        Transaction transaction = new Transaction(localDateTime, description, vendor, amount);
         transactions.add(transaction);
     }
 
     public static void displayTransactions(Integer i) {
         // Printing like this lets me format the decimals
-        System.out.printf(transactions.get(i).getDateTime()
-                + "|" + transactions.get(i).getDescription()
-                + "|" + transactions.get(i).getVendor()
-                + "|%,.2f\n", transactions.get(i).getAmount());
+        System.out.printf("%s|%s|%s|%,.2f\n",
+                transactions.get(i).getDateTime().format(dateTimeFormatter),
+                transactions.get(i).getDescription(),
+                transactions.get(i).getVendor(),
+                transactions.get(i).getAmount());
     }
 }
