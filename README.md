@@ -27,3 +27,15 @@ by reusing my methods for different reasons
 * Allow the user to narrow down their searches with criteria
 * Present all data and confirm inputs in a readable format
 * Have the application continue to run until user chooses to exit
+
+![homeScreen.png](src/main/resources/homeScreen.png)
+
+* Allows the user to select options
+
+![ledgerScreen.png](src/main/resources/ledgerScreen.png)
+
+* Loops between each menu
+
+![reportsScreen.png](src/main/resources/reportsScreen.png)
+
+* Allows searches by specific criteria
