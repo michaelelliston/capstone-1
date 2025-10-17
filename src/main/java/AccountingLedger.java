@@ -200,14 +200,14 @@ public class AccountingLedger {
     }
 
     /**
-     * @param number allows this method to work as both Month to Date and Previous Month by
+     * @param monthsAgo allows this method to work as both Month to Date and Previous Month by
      *               passing in either a 0 or 1 to subtract from the value of the current month
      */
-    public static void displayByMonth(Integer number) {
+    public static void displayByMonth(Integer monthsAgo) {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getMonth() == today.getMonthValue() - number && transactions.get(i).getYear() == today.getYear()) {
+            if (transactions.get(i).getMonth() == today.getMonthValue() - monthsAgo && transactions.get(i).getYear() == today.getYear()) {
                 displayTransactions(i);
             }
         }
@@ -216,14 +216,14 @@ public class AccountingLedger {
     }
 
     /**
-     * @param number allows this method to work as both Year to Date and Previous Year by
+     * @param monthsAgo allows this method to work as both Year to Date and Previous Year by
      *               passing in either a 0 or 1 to subtract from the value of the current year
      */
-    public static void displayByYear(Integer number) {
+    public static void displayByYear(Integer monthsAgo) {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getYear() == today.getYear() - number) {
+            if (transactions.get(i).getYear() == today.getYear() - monthsAgo) {
                 displayTransactions(i);
             }
         }
