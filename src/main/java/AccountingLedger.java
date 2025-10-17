@@ -207,7 +207,7 @@ public class AccountingLedger {
         LocalDate today = LocalDate.now();
 
         for (int i = transactions.size() - 1; i >= 0; i--) {
-            if (transactions.get(i).getMonth() == today.getMonthValue() - number) {
+            if (transactions.get(i).getMonth() == today.getMonthValue() - number && transactions.get(i).getYear() == today.getYear()) {
                 displayTransactions(i);
             }
         }
